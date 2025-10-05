@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="monetag" content="39a4e6072a60f335f4a48bd637537ae5">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG to PDF Converter</title>
+    <style>
+        /* Basic styling for your content */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            padding: 20px; 
+            line-height: 1.6; 
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+        }
+        .content { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .ad-container { 
+            margin: 30px 0; 
+            padding: 15px; 
+            border: 2px dashed #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 250px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 { 
+            text-align: center; 
+            color: #2c3e50;
+        }
+        
+        /* Converter styles */
+        .converter-container {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            background-color: #f8fafc;
+        }
+        
+        .upload-area {
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: #ecf0f1;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            background-color: #d6eaf8;
+            border-color: #2980b9;
+        }
+        
+        .upload-area p {
+            margin: 0;
+            font-size: 18px;
+            color: #3498db;
+        }
+        
+        .upload-area i {
+            font-size: 48px;
+            color: #3498db;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .preview-container {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 5px;
+        }
+        
+        .button:hover {
+            background-color: #2980b9;
+        }
+        
+        .button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .button-convert {
+            background-color: #2ecc71;
+        }
+        
+        .button-convert:hover {
+            background-color: #27ae60;
+        }
+        
+        .status-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .status-success {
+            background-color: #d5f4e6;
+            color: #27ae60;
+            border: 1px solid #2ecc71;
+        }
+        
+        .status-error {
+            background-color: #fadbd8;
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+        
+        .ad-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .ad-popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+        
+        .close-ad {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .close-ad:hover {
+            color: #e74c3c;
+        }
+        
+        .image-list {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        .image-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .image-item:last-child {
+            border-bottom: none;
+        }
+        
+        .remove-image {
+            color: #e74c3c;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 18px;
+        }
+        
+        .new-ad-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 600px) {
+            .content {
+                padding: 15px;
+            }
+            
+            .upload-area {
+                padding: 20px 10px;
+            }
+            
+            .button {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+        <h1>JPG to PDF Converter</h1>
+        <p>Easily convert your JPG images to PDF format. Upload your images, convert them, and download the PDF.</p>
+        
+        <!-- New Ad Container -->
+        <div class="new-ad-container">
+            <h2>Special Offer</h2>
+            <div class="ad-container">
+                <div id="new-ad-slot"></div>
+            </div>
+        </div>
+
+        <h2>Native Banner Ad</h2>
+        <div class="ad-container">
+            <div data-zone-id="9976409" class="native-ad"></div>
+            <script async src="https://groleegni.net/native.min.js"></script>
+        </div>
+
+        <div class="converter-container">
+            <h2>Convert Your Images</h2>
+            
+            <div class="upload-area" id="uploadArea">
+                <i>📁</i>
+                <p>Click here or drag and drop your JPG images</p>
+                <input type="file" id="fileInput" class="file-input" accept=".jpg,.jpeg,.png" multiple>
+            </div>
+            
+            <div class="image-list" id="imageList"></div>
+            
+            <div class="preview-container" id="previewContainer">
+                <h3>Image Preview</h3>
+                <img id="previewImage" class="preview-image" src="" alt="Preview">
+            </div>
+            
+            <div style="text-align: center;">
+                <button id="convertButton" class="button button-convert" disabled>Convert to PDF</button>
+                <button id="clearButton" class="button" disabled>Clear Images</button>
+            </div>
+            
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+        
+        <p>Here is more content on the page. The Vignette ad (pop-up) will appear automatically between page navigations when the ad network decides it's the best time, ensuring a good user experience.</p>
+    </div>
+    
+    <!-- Ad Popup -->
+    <div class="ad-popup" id="adPopup">
+        <div class="ad-popup-content">
+            <span class="close-ad" id="closeAd">&times;</span>
+            <h3>Special Offer!</h3>
+            <p>Thank you for using our converter! Check out this special offer:</p>
+            <div class="ad-container">
+                <div id="popup-ad-slot"></div>
+            </div>
+            <p>This ad helps keep our service free. Thank you for your support!</p>
+        </div>
+    </div>
+
+    <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- Your new ad script -->
+    <script src='//libtl.com/sdk.js' data-zone='9975579' data-sdk='show_9975579'></script>
+    
+    <script>
+        // Initialize variables
+        let uploadedImages = [];
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const previewImage = document.getElementById('previewImage');
+        const convertButton = document.getElementById('convertButton');
+        const clearButton = document.getElementById('clearButton');
+        const statusMessage = document.getElementById('statusMessage');
+        const imageList = document.getElementById('imageList');
+        const adPopup = document.getElementById('adPopup');
+        const closeAd = document.getElementById('closeAd');
+        
+        // Event listeners
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#d6eaf8';
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.backgroundColor = '#ecf0f1';
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#ecf0f1';
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+        
+        convertButton.addEventListener('click', convertToPdf);
+        clearButton.addEventListener('click', clearImages);
+        closeAd.addEventListener('click', () => {
+            adPopup.style.display = 'none';
+        });
+        
+        // Handle file uploads
+        function handleFiles(files) {
+            if (files.length === 0) return;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Check if file is an image
+                if (!file.type.match('image.*')) {
+                    showStatus('Please upload only image files (JPG, PNG).', 'error');
+                    continue;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    const imageData = {
+                        name: file.name,
+                        data: e.target.result
+                    };
+                    
+                    uploadedImages.push(imageData);
+                    updateImageList();
+                    updateButtons();
+                    
+                    // Show preview of the first image
+                    if (uploadedImages.length === 1) {
+                        previewImage.src = imageData.data;
+                        previewContainer.style.display = 'block';
+                    }
+                };
+                
+                reader.readAsDataURL(file);
+            }
+            
+            // Reset file input
+            fileInput.value = '';
+        }
+        
+        // Update the image list display
+        function updateImageList() {
+            imageList.innerHTML = '';
+            
+            if (uploadedImages.length === 0) {
+                imageList.style.display = 'none';
+                return;
+            }
+            
+            imageList.style.display = 'block';
+            
+            uploadedImages.forEach((image, index) => {
+                const item = document.createElement('div');
+                item.className = 'image-item';
+                
+                const name = document.createElement('span');
+                name.textContent = image.name;
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-image';
+                removeBtn.innerHTML = '&times;';
+                removeBtn.addEventListener('click', () => removeImage(index));
+                
+                item.appendChild(name);
+                item.appendChild(removeBtn);
+                imageList.appendChild(item);
+            });
+        }
+        
+        // Remove an image from the list
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            updateImageList();
+            updateButtons();
+            
+            if (uploadedImages.length === 0) {
+                previewContainer.style.display = 'none';
+            } else {
+                // Show the first image as preview
+                previewImage.src = uploadedImages[0].data;
+            }
+        }
+        
+        // Clear all images
+        function clearImages() {
+            uploadedImages = [];
+            updateImageList();
+            updateButtons();
+            previewContainer.style.display = 'none';
+        }
+        
+        // Update button states based on whether we have images
+        function updateButtons() {
+            convertButton.disabled = uploadedImages.length === 0;
+            clearButton.disabled = uploadedImages.length === 0;
+        }
+        
+        // Convert images to PDF
+        function convertToPdf() {
+            if (uploadedImages.length === 0) {
+                showStatus('Please upload at least one image first.', 'error');
+                return;
+            }
+            
+            showStatus('Converting images to PDF...', 'success');
+            
+            // Use jsPDF to create PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add each image to the PDF
+            uploadedImages.forEach((image, index) => {
+                if (index > 0) {
+                    doc.addPage();
+                }
+                
+                // Get image dimensions
+                const img = new Image();
+                img.src = image.data;
+                
+                img.onload = function() {
+                    const imgWidth = doc.internal.pageSize.getWidth();
+                    const imgHeight = (img.height * imgWidth) / img.width;
+                    
+                    // Add image to PDF
+                    doc.addImage(image.data, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    
+                    // If this is the last image, save the PDF
+                    if (index === uploadedImages.length - 1) {
+                        // Save the PDF
+                        doc.save('converted_images.pdf');
+                        
+                        showStatus('PDF successfully created and downloaded!', 'success');
+                        
+                        // Show ad popup after a short delay
+                        setTimeout(() => {
+                            adPopup.style.display = 'flex';
+                            // Load new ad in popup if needed
+                            loadNewAdInPopup();
+                        }, 1000);
+                    }
+                };
+            });
+        }
+        
+        // Show status message
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message status-${type}`;
+            statusMessage.style.display = 'block';
+            
+            // Hide status after 5 seconds
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Function to load new ad in popup if needed
+        function loadNewAdInPopup() {
+            // This function can be customized based on how your ad SDK works
+            console.log('Ad popup displayed - potential for additional ad loading');
+        }
+    </script>
+
+    <script>(function(s){s.dataset.zone='9975972',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+</body>
+</html>
