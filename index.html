@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta name="monetag" content="39a4e6072a60f335f4a48bd637537ae5">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JPG to PDF Converter</title>
+<meta name="f89ea7a9b9018c70b522809b72bf1afedfcf20f1" content="f89ea7a9b9018c70b522809b72bf1afedfcf20f1" />
+    
+</head>
+
+    
+    
+    JPG to PDF Converter
     <style>
-        /* Basic styling for your content */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             padding: 20px; 
@@ -23,23 +25,12 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .ad-container { 
-            margin: 30px 0; 
-            padding: 15px; 
-            border: 2px dashed #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 250px;
-            background-color: #f9f9f9;
-            text-align: center; /* Ensures content inside is centered */
-        }
+
         h1, h2 { 
             text-align: center; 
             color: #2c3e50;
         }
         
-        /* Converter styles */
         .converter-container {
             margin: 30px 0;
             padding: 20px;
@@ -141,43 +132,7 @@
             color: #e74c3c;
             border: 1px solid #e74c3c;
         }
-        
-        .ad-popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .ad-popup-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-        }
-        
-        .close-ad {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #7f8c8d;
-        }
-        
-        .close-ad:hover {
-            color: #e74c3c;
-        }
-        
+
         .image-list {
             margin-top: 15px;
             max-height: 200px;
@@ -207,93 +162,18 @@
             font-size: 18px;
         }
         
-        .new-ad-container {
-            margin: 20px 0;
-            text-align: center;
-        }
-        
-        /* Interstitial ad styles */
-        .interstitial-ad {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        
-        .interstitial-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 600px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-        }
-        
-        .interstitial-close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #7f8c8d;
-            background: none;
-            border: none;
-        }
-        
-        .interstitial-close:hover {
-            color: #e74c3c;
-        }
-        
-        .countdown-timer {
-            margin-top: 15px;
-            font-size: 16px;
-            color: #e74c3c;
-            font-weight: bold;
-        }
-        
         @media (max-width: 600px) {
-            .content {
-                padding: 15px;
-            }
-            
-            .upload-area {
-                padding: 20px 10px;
-            }
-            
-            .button {
-                width: 100%;
-                margin: 5px 0;
-            }
+            .content { padding: 15px; }
+            .upload-area { padding: 20px 10px; }
+            .button { width: 100%; margin: 5px 0; }
         }
     </style>
-</head>
-<body>
 
+
+<body>
     <div class="content">
         <h1>JPG to PDF Converter</h1>
         <p>Easily convert your JPG images to PDF format. Upload your images, convert them, and download the PDF.</p>
-        
-        <div class="new-ad-container">
-            <h2>Display Ad Zone</h2>
-            <div class="ad-container">
-                <p>Ad content will load here (e.g., Zone ID: 9975579)</p>
-                <div id="new-ad-slot-1"></div>
-            </div>
-        </div>
-
-        <h2>Another Ad Spot</h2>
-        <div class="ad-container">
-            <p>Ad content will load here (e.g., Zone ID: 9977971)</p>
-            <div id="new-ad-slot-2"></div>
-        </div>
 
         <div class="converter-container">
             <h2>Convert Your Images</h2>
@@ -301,14 +181,14 @@
             <div class="upload-area" id="uploadArea">
                 <i>📁</i>
                 <p>Click here or drag and drop your JPG images</p>
-                <input type="file" id="fileInput" class="file-input" accept=".jpg,.jpeg,.png" multiple>
+                <input type="file" id="fileInput" class="file-input" accept=".jpg,.jpeg,.png" multiple />
             </div>
             
             <div class="image-list" id="imageList"></div>
             
             <div class="preview-container" id="previewContainer">
                 <h3>Image Preview</h3>
-                <img id="previewImage" class="preview-image" src="" alt="Preview">
+                <img id="previewImage" class="preview-image" src="" alt="Preview" />
             </div>
             
             <div style="text-align: center;">
@@ -321,53 +201,10 @@
         
         <p>Here is more content on the page.</p>
     </div>
-    
-    <!-- Interstitial Ad -->
-    <div class="interstitial-ad" id="interstitialAd">
-        <div class="interstitial-content">
-            <button class="interstitial-close" id="interstitialClose" disabled>&times;</button>
-            <h3>Advertisement</h3>
-            <div class="ad-container">
-                <p>Interstitial Ad Content</p>
-                <div id="interstitial-ad-slot"></div>
-            </div>
-            <div class="countdown-timer" id="countdownTimer">
-                Ad can be closed in <span id="countdown">10</span> seconds
-            </div>
-        </div>
-    </div>
-    
-    <div class="ad-popup" id="adPopup">
-        <div class="ad-popup-content">
-            <span class="close-ad" id="closeAd">&times;</span>
-            <h3>Special Offer!</h3>
-            <p>Thank you for using our converter! Check out this special offer:</p>
-            <div class="ad-container">
-                <p>Popup Ad Content Placeholder</p>
-                <div id="popup-ad-slot"></div>
-            </div>
-            <p>This ad helps keep our service free. Thank you for your support!</p>
-        </div>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
-    <script src='//libtl.com/sdk.js' data-zone='9975579' data-sdk='show_9975579'></script>
-    
-    <script async src="https://groleegni.net/native.min.js"></script>
-    
-    <script>(function(s){s.dataset.zone='9975972',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
-    <script>(function(s){s.dataset.zone='9977971',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
-    <script>(function(s){s.dataset.zone='9977987',s.src='https://groleegni.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
-    <script>(function(s){s.dataset.zone='9978000',s.src='https://forfrogadiertor.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
-    <p style="text-align: center; margin-top: 20px;"><a href="https://otieu.com/4/9977497" target="_blank">Click Here for an Exclusive Offer!</a></p>
 
     <script>
-        // Initialize variables
         let uploadedImages = [];
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
@@ -377,19 +214,7 @@
         const clearButton = document.getElementById('clearButton');
         const statusMessage = document.getElementById('statusMessage');
         const imageList = document.getElementById('imageList');
-        const adPopup = document.getElementById('adPopup');
-        const closeAd = document.getElementById('closeAd');
-        
-        // Interstitial ad variables
-        const interstitialAd = document.getElementById('interstitialAd');
-        const interstitialClose = document.getElementById('interstitialClose');
-        const countdownTimer = document.getElementById('countdownTimer');
-        const countdownDisplay = document.getElementById('countdown');
-        let interstitialInterval;
-        let countdownInterval;
-        let countdownValue = 10;
-        
-        // Event listeners
+
         uploadArea.addEventListener('click', () => fileInput.click());
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -403,226 +228,141 @@
             uploadArea.style.backgroundColor = '#ecf0f1';
             handleFiles(e.dataTransfer.files);
         });
-        
+
         fileInput.addEventListener('change', (e) => {
             handleFiles(e.target.files);
         });
-        
+
         convertButton.addEventListener('click', convertToPdf);
         clearButton.addEventListener('click', clearImages);
-        closeAd.addEventListener('click', () => {
-            adPopup.style.display = 'none';
-        });
-        
-        // Interstitial ad event listeners
-        interstitialClose.addEventListener('click', closeInterstitialAd);
-        
-        // Initialize interstitial ad timer
-        function initInterstitialAds() {
-            // Show first ad after 10 seconds
-            setTimeout(showInterstitialAd, 10000);
-            
-            // Then show every 10 seconds
-            interstitialInterval = setInterval(showInterstitialAd, 10000);
-        }
-        
-        // Show interstitial ad
-        function showInterstitialAd() {
-            // Reset countdown
-            countdownValue = 10;
-            countdownDisplay.textContent = countdownValue;
-            
-            // Disable close button
-            interstitialClose.disabled = true;
-            interstitialClose.style.cursor = 'not-allowed';
-            
-            // Show the ad
-            interstitialAd.style.display = 'flex';
-            
-            // Start countdown
-            countdownInterval = setInterval(() => {
-                countdownValue--;
-                countdownDisplay.textContent = countdownValue;
-                
-                if (countdownValue <= 0) {
-                    clearInterval(countdownInterval);
-                    interstitialClose.disabled = false;
-                    interstitialClose.style.cursor = 'pointer';
-                }
-            }, 1000);
-        }
-        
-        // Close interstitial ad
-        function closeInterstitialAd() {
-            interstitialAd.style.display = 'none';
-            clearInterval(countdownInterval);
-        }
-        
-        // Handle file uploads
+
         function handleFiles(files) {
             if (files.length === 0) return;
-            
+
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                
-                // Check if file is an image
+
                 if (!file.type.match('image.*')) {
                     showStatus('Please upload only image files (JPG, PNG).', 'error');
                     continue;
                 }
-                
+
                 const reader = new FileReader();
-                
+
                 reader.onload = (e) => {
                     const imageData = {
                         name: file.name,
                         data: e.target.result
                     };
-                    
+
                     uploadedImages.push(imageData);
                     updateImageList();
                     updateButtons();
-                    
-                    // Show preview of the first image
+
                     if (uploadedImages.length === 1) {
                         previewImage.src = imageData.data;
                         previewContainer.style.display = 'block';
                     }
                 };
-                
+
                 reader.readAsDataURL(file);
             }
-            
-            // Reset file input
+
             fileInput.value = '';
         }
-        
-        // Update the image list display
+
         function updateImageList() {
             imageList.innerHTML = '';
-            
+
             if (uploadedImages.length === 0) {
                 imageList.style.display = 'none';
                 return;
             }
-            
+
             imageList.style.display = 'block';
-            
+
             uploadedImages.forEach((image, index) => {
                 const item = document.createElement('div');
                 item.className = 'image-item';
-                
+
                 const name = document.createElement('span');
                 name.textContent = image.name;
-                
+
                 const removeBtn = document.createElement('button');
                 removeBtn.className = 'remove-image';
                 removeBtn.innerHTML = '&times;';
                 removeBtn.addEventListener('click', () => removeImage(index));
-                
+
                 item.appendChild(name);
                 item.appendChild(removeBtn);
                 imageList.appendChild(item);
             });
         }
-        
-        // Remove an image from the list
+
         function removeImage(index) {
             uploadedImages.splice(index, 1);
             updateImageList();
             updateButtons();
-            
+
             if (uploadedImages.length === 0) {
                 previewContainer.style.display = 'none';
             } else {
-                // Show the first image as preview
                 previewImage.src = uploadedImages[0].data;
             }
         }
-        
-        // Clear all images
+
         function clearImages() {
             uploadedImages = [];
             updateImageList();
             updateButtons();
             previewContainer.style.display = 'none';
         }
-        
-        // Update button states based on whether we have images
+
         function updateButtons() {
             convertButton.disabled = uploadedImages.length === 0;
             clearButton.disabled = uploadedImages.length === 0;
         }
-        
-        // Convert images to PDF
+
         function convertToPdf() {
             if (uploadedImages.length === 0) {
                 showStatus('Please upload at least one image first.', 'error');
                 return;
             }
-            
+
             showStatus('Converting images to PDF...', 'success');
-            
-            // Use jsPDF to create PDF
+
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
-            // Add each image to the PDF
+
             uploadedImages.forEach((image, index) => {
-                if (index > 0) {
-                    doc.addPage();
-                }
-                
-                // Get image dimensions
+                if (index > 0) doc.addPage();
+
                 const img = new Image();
                 img.src = image.data;
-                
+
                 img.onload = function() {
                     const imgWidth = doc.internal.pageSize.getWidth();
                     const imgHeight = (img.height * imgWidth) / img.width;
-                    
-                    // Add image to PDF
+
                     doc.addImage(image.data, 'JPEG', 0, 0, imgWidth, imgHeight);
-                    
-                    // If this is the last image, save the PDF
+
                     if (index === uploadedImages.length - 1) {
-                        // Save the PDF
                         doc.save('converted_images.pdf');
-                        
                         showStatus('PDF successfully created and downloaded!', 'success');
-                        
-                        // Show ad popup after a short delay
-                        setTimeout(() => {
-                            // This popup logic is kept but will not load your new ad zones automatically.
-                            adPopup.style.display = 'flex';
-                            loadNewAdInPopup();
-                        }, 1000);
                     }
                 };
             });
         }
-        
-        // Show status message
+
         function showStatus(message, type) {
             statusMessage.textContent = message;
             statusMessage.className = `status-message status-${type}`;
             statusMessage.style.display = 'block';
-            
-            // Hide status after 5 seconds
+
             setTimeout(() => {
                 statusMessage.style.display = 'none';
             }, 5000);
         }
-        
-        // Function to load new ad in popup if needed
-        function loadNewAdInPopup() {
-            // Placeholder: If you need a specific ad to load in the popup, you would add the SDK call here.
-            console.log('Ad popup displayed - potential for additional ad loading');
-        }
-        
-        // Initialize the interstitial ads when page loads
-        window.addEventListener('load', initInterstitialAds);
     </script>
-
 </body>
 </html>
