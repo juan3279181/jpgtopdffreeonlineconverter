@@ -1,31 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3679817190185454"
-     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus PDF - Free High-Resolution JPG to PDF Converter</title>
+    <title>Nexus PDF · JPG to PDF Converter</title>
     <meta name="description" content="Convert JPG images to high-quality PDF documents directly in your browser instantly. Secure, offline, client-side processing with no file uploads required.">
     
-    <!-- External Typography & Heavy-Lifter Client Libraries -->
+    <!-- Google Font & Heavy Libraries -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    <!-- Google AdSense Auto-Ads Placement Script Tag -->
-    <!-- REPLACE 'ca-pub-XXXXXXXXXXXXXXXX' WITH YOUR ACTUAL ADSENSE PUBLISHER ID BEFORE DEPLOYMENT -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-pub-3679817190185454
-" crossorigin="anonymous"></script>
+    <!-- Google AdSense (keep your publisher ID) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3679817190185454" crossorigin="anonymous"></script>
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
 
         body, html {
             width: 100%;
@@ -34,16 +24,16 @@
             scroll-behavior: smooth;
         }
 
-        /* Hero Split View Structure Zone */
+        /* main app workspace: split view (3D + dashboard) */
         .app-workspace {
             position: relative;
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
             display: flex;
+            flex-wrap: wrap;
         }
 
-        /* 3D WebGL Canvas Layer Background */
         #canvas-container {
             position: absolute;
             top: 0;
@@ -53,210 +43,224 @@
             z-index: 1;
         }
 
-        /* Glassmorphic UI Dashboard Container Overlay */
+        /* Glass dashboard – left side */
         .dashboard {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            bottom: 30px;
-            width: 420px;
+            position: relative;
             z-index: 10;
+            width: 100%;
+            max-width: 460px;
+            margin: 30px 20px 30px 30px;
             background: rgba(10, 11, 16, 0.65);
             backdrop-filter: blur(24px) saturate(160%);
             -webkit-backdrop-filter: blur(24px) saturate(160%);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 28px;
-            padding: 35px;
+            padding: 32px 28px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+            align-self: flex-start;
+            min-height: 600px;
         }
 
         .header h1 {
             font-size: 30px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            line-height: 1.2;
             background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
-
         .header p {
             color: #7e8c9f;
             font-size: 13px;
             line-height: 1.5;
         }
 
-        /* Drag and Drop Zone Component Styles */
         .drop-zone {
-            margin-top: 25px;
-            flex-grow: 1;
-            max-height: 240px;
+            margin-top: 22px;
+            flex-grow: 0;
             border: 2px dashed rgba(0, 242, 254, 0.25);
             background: rgba(0, 242, 254, 0.02);
             border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
+            padding: 24px 18px;
+            text-align: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
+            transition: all 0.3s ease;
         }
-
         .drop-zone.dragover {
             border-color: #00f2fe;
             background: rgba(0, 242, 254, 0.08);
-            transform: scale(1.02);
+            transform: scale(1.01);
         }
-
         .drop-zone input { display: none; }
-
         .icon-wrapper {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: 56px;
+            height: 56px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-bottom: 12px;
+            font-size: 22px;
+            margin: 0 auto 10px;
         }
-
-        .drop-title { font-size: 15px; font-weight: 600; color: #e2e8f0; margin-bottom: 4px; }
+        .drop-title { font-weight: 600; color: #e2e8f0; font-size: 15px; }
         .drop-subtitle { font-size: 12px; color: #64748b; }
 
-        /* File Staging Tracker Dashboard Layer */
         .staging-area {
-            margin-top: 20px;
-            flex-grow: 1;
+            margin: 18px 0 12px;
+            flex: 1;
             overflow-y: auto;
+            max-height: 220px;
         }
-
         .staging-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #4ac7ff;
+            margin-bottom: 8px;
         }
-
-        .file-list { display: flex; flex-direction: column; gap: 8px; }
-
+        .file-list { display: flex; flex-direction: column; gap: 6px; }
         .file-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 10px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 8px 12px;
             border-radius: 12px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            user-select: none;
+            align-items: center;
         }
-
-        .file-info { display: flex; flex-direction: column; max-width: 80%; }
+        .file-info { display: flex; flex-direction: column; max-width: 75%; }
         .file-name { font-size: 12px; font-weight: 600; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .file-size { font-size: 11px; color: #64748b; margin-top: 2px; }
-
-        .remove-btn {
-            background: none; border: none; color: #ef4444; font-size: 16px; cursor: pointer; opacity: 0.6;
-        }
+        .file-size { font-size: 10px; color: #64748b; }
+        .remove-btn { background: none; border: none; color: #ef4444; font-size: 16px; cursor: pointer; opacity: 0.6; padding: 0 4px; }
         .remove-btn:hover { opacity: 1; }
 
         .action-button {
-            width: 100%; height: 50px;
+            width: 100%;
+            height: 50px;
             background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-            border: none; border-radius: 14px; color: #ffffff;
-            font-size: 15px; font-weight: 700; cursor: pointer;
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
             box-shadow: 0 8px 24px rgba(0, 242, 254, 0.25);
-            transition: all 0.3s ease;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .action-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0, 242, 254, 0.4); }
         .action-button:disabled { background: #1e293b; color: #475569; box-shadow: none; cursor: not-allowed; }
 
+        /* -------- RIGHT SIDE: ad spaces + rich content -------- */
+        .right-zone {
+            position: relative;
+            z-index: 10;
+            flex: 1;
+            min-width: 300px;
+            padding: 30px 30px 30px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Ad containers – clearly separated, with background and spacing */
+        .ad-slot {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 18px 12px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            transition: border-color 0.2s;
+        }
+        .ad-slot:hover { border-color: rgba(0, 242, 254, 0.2); }
+        .ad-slot-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #4a5a6e;
+            background: rgba(0,0,0,0.3);
+            padding: 4px 12px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+        }
+        .ad-slot.placeholder {
+            flex-direction: column;
+            gap: 8px;
+            color: #4a5a6e;
+            font-size: 13px;
+        }
+        .ad-slot.placeholder span { opacity: 0.5; }
+
+        /* Informational content cards (SEO / valuable) */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .info-card {
+            background: #0f111a;
+            border: 1px solid #1e293b;
+            padding: 18px 20px;
+            border-radius: 18px;
+            transition: border-color 0.3s;
+        }
+        .info-card:hover { border-color: #00f2fe; }
+        .info-card h4 { font-size: 16px; color: #f8fafc; margin-bottom: 6px; font-weight: 700; }
+        .info-card p { font-size: 13px; color: #94a3b8; line-height: 1.5; }
+
         .scroll-indicator {
-            position: absolute; bottom: 30px; right: 40px; z-index: 10;
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            padding: 10px 20px; border-radius: 30px; font-size: 12px; font-weight: 600;
-            color: #00f2fe; cursor: pointer; backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: 0.3s;
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            z-index: 10;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #00f2fe;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: 0.3s;
         }
         .scroll-indicator:hover { background: rgba(0, 242, 254, 0.1); transform: translateY(2px); }
 
-        /* ==========================================
-           GOOGLE ADSENSE COMPLIANT VALUABLE CONTENT SECTION
-           ========================================== */
-        .content-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 80px 40px;
-            position: relative;
-            z-index: 5;
-        }
-
-        .seo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .content-section h2 {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .content-section p {
-            color: #94a3b8;
-            font-size: 16px;
-            line-height: 1.7;
-            margin-bottom: 40px;
-        }
-
-        .card {
-            background: #0f111a;
-            border: 1px solid #1e293b;
-            padding: 30px;
-            border-radius: 20px;
-            transition: border-color 0.3s;
-        }
-        .card:hover { border-color: #00f2fe; }
-
-        .card h3 { font-size: 20px; color: #f8fafc; margin-bottom: 12px; font-weight: 700; }
-        .card p { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 0; }
-
-        /* Traditional Regulatory Site Footer Link Matrix */
+        /* Footer */
         footer {
             border-top: 1px solid #1e293b;
             background: #090a10;
-            padding: 40px 20px;
+            padding: 30px 20px;
             text-align: center;
             position: relative;
             z-index: 5;
         }
-
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
         }
-
         .footer-links a {
             color: #64748b;
             text-decoration: none;
@@ -266,10 +270,9 @@
             cursor: pointer;
         }
         .footer-links a:hover { color: #00f2fe; }
-
         .copyright { font-size: 13px; color: #475569; }
 
-        /* Integrated Compliance Modals System */
+        /* Modals (privacy / terms) */
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(16px);
@@ -281,317 +284,382 @@
             background: #0f111a; border: 1px solid #1e293b; width: 90%; max-width: 650px;
             max-height: 80vh; border-radius: 24px; padding: 40px; overflow-y: auto; position: relative;
         }
-        .modal-close { position: absolute; top: 25px; right: 25px; font-size: 24px; color: #64748b; cursor: pointer; }
+        .modal-close { position: absolute; top: 20px; right: 24px; font-size: 24px; color: #64748b; cursor: pointer; }
         .modal-wrapper h3 { font-size: 24px; margin-bottom: 15px; color: #fff; font-weight: 800; }
         .modal-wrapper p, .modal-wrapper li { color: #94a3b8; font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
         .modal-wrapper ul { margin-left: 20px; margin-bottom: 15px; }
 
-        ::-webkit-scrollbar { width: 6px; }
+        /* responsive */
+        @media (max-width: 820px) {
+            .dashboard { max-width: 100%; margin: 20px; }
+            .right-zone { padding: 20px; }
+            .app-workspace { flex-direction: column; }
+            #canvas-container { height: 100vh; }
+            .scroll-indicator { display: none; }
+        }
+        ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- 1. Immersive Interactive Application Zone -->
-    <div class="app-workspace">
-        <div id="canvas-container"></div>
+<div class="app-workspace">
+    <!-- 3D canvas -->
+    <div id="canvas-container"></div>
 
-        <div class="dashboard">
+    <!-- Left dashboard -->
+    <div class="dashboard">
+        <div>
             <div class="header">
                 <h1>Nexus PDF</h1>
-                <p>Spatial, zero-server offline image compiling. Files remain secure in local client browser memory.</p>
+                <p>Zero-server, offline JPG → PDF. Files stay in your browser.</p>
             </div>
 
             <div class="drop-zone" id="drop-zone">
                 <input type="file" id="file-input" accept="image/jpeg, image/jpg" multiple>
                 <div class="icon-wrapper">🌌</div>
                 <div class="drop-title">Drop images here</div>
-                <div class="drop-subtitle">or click to browse filesystem</div>
+                <div class="drop-subtitle">or click to browse</div>
             </div>
 
             <div class="staging-area">
                 <div class="staging-header">
-                    <span>Memory Cluster Staging</span>
+                    <span>Staging</span>
                     <span id="file-count">0 Files</span>
                 </div>
                 <div class="file-list" id="file-list"></div>
             </div>
-
-            <div class="footer-controls">
-                <button class="action-button" id="compile-btn" disabled>
-                    <span>Compile PDF Document</span> ✨
-                </button>
-            </div>
         </div>
 
-        <div class="scroll-indicator" onclick="document.getElementById('learn-more').scrollIntoView();">
-            Learn More About Nexus PDF ↓
+        <div class="footer-controls">
+            <button class="action-button" id="compile-btn" disabled>
+                <span>Compile PDF</span> ✨
+            </button>
         </div>
     </div>
 
-    <!-- 2. Rich Informational Content Zone (Blocks Google Low-Value Content Rejections) -->
-    <div class="content-container" id="learn-more">
-        <div class="content-section">
-            <h2>Professional Grade Image Compilation</h2>
-            <p>Nexus PDF answers the modern web need for private, instant format conversion. By moving calculation workloads away from server farms and handling raw pixel streams inside your secure client engine environment, we protect data integrity while maximizing workflow speed.</p>
+    <!-- RIGHT ZONE: ad spaces + valuable content -->
+    <div class="right-zone">
+        <!-- Ad slot 1 - top (display ad) -->
+        <div class="ad-slot placeholder" id="ad-slot-1">
+            <span class="ad-slot-label">📢 Ad Space</span>
+            <span>— 728×90 or responsive —</span>
+            <!-- AdSense unit can be placed here -->
         </div>
 
-        <div class="seo-grid">
-            <div class="card">
-                <h3>100% Client-Side Architecture</h3>
-                <p>Traditional file converters upload your sensitive photos directly to an unprotected external web server. Nexus PDF operates exclusively using local sandboxed javascript arrays, meaning your files never leave your computer hardware structure.</p>
+        <!-- Informational / SEO content (valuable) -->
+        <div class="info-grid">
+            <div class="info-card">
+                <h4>🛡️ 100% client-side</h4>
+                <p>Your images never leave your device. No uploads, no servers, total privacy.</p>
             </div>
-            <div class="card">
-                <h3>Lossless PDF Optimization</h3>
-                <p>Our rendering algorithms track the true original width and structural pixel heights of your images. Pages are dynamically generated to perfectly frame your documents without causing pixelated stretching or artifacts.</p>
+            <div class="info-card">
+                <h4>⚡ Lossless quality</h4>
+                <p>Preserves original resolution and pixel dimensions. No compression artifacts.</p>
             </div>
-            <div class="card">
-                <h3>Asynchronous 3D Processing</h3>
-                <p>Built with lightweight asynchronous handling models, you can safely stage large multi-page asset batches without freezing your system viewport workflow.</p>
+            <div class="info-card">
+                <h4>🌀 3D spatial UI</h4>
+                <p>Immersive WebGL staging with real‑time physics feedback for each file.</p>
             </div>
+        </div>
+
+        <!-- Ad slot 2 - middle (display ad) -->
+        <div class="ad-slot placeholder" id="ad-slot-2">
+            <span class="ad-slot-label">📢 Ad Space</span>
+            <span>— 300×250 or native —</span>
+            <!-- AdSense unit can be placed here -->
+        </div>
+
+        <!-- Additional valuable content: feature list -->
+        <div style="background: #0f111a; border: 1px solid #1e293b; border-radius: 20px; padding: 20px 22px;">
+            <h4 style="color: #f8fafc; font-weight: 700; margin-bottom: 8px;">Why Nexus PDF?</h4>
+            <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">
+                Traditional converters upload your files to unknown servers. Nexus PDF processes everything
+                locally using <strong>WebAssembly</strong> and <strong>Canvas</strong> – giving you enterprise‑grade
+                document compilation with zero data exposure. Perfect for sensitive documents, NDA content,
+                and high‑resolution image archives.
+            </p>
+        </div>
+
+        <!-- Ad slot 3 - bottom (display ad) -->
+        <div class="ad-slot placeholder" id="ad-slot-3">
+            <span class="ad-slot-label">📢 Ad Space</span>
+            <span>— 728×90 or responsive —</span>
+            <!-- AdSense unit can be placed here -->
         </div>
     </div>
 
-    <!-- 3. Dynamic Legal Mandate Verification Footnotes -->
-    <footer>
-        <div class="footer-links">
-            <a onclick="toggleModal('privacy-modal')">Privacy Policy</a>
-            <a onclick="toggleModal('terms-modal')">Terms of Service</a>
-            <a href="mailto:support@yourdomain.com">Contact Support</a>
-        </div>
-        <p class="copyright">&copy; 2026 Nexus PDF Asset Laboratories. All rights reserved. Processing runs completely local.</p>
-    </footer>
+    <!-- scroll indicator (learn more) -->
+    <div class="scroll-indicator" onclick="document.getElementById('learn-more').scrollIntoView();">
+        Learn More ↓
+    </div>
+</div>
 
-    <!-- Privacy Compliance Policy Document Modal Wrap -->
-    <div class="modal" id="privacy-modal">
-        <div class="modal-wrapper">
-            <span class="modal-close" onclick="toggleModal('privacy-modal')">✕</span>
-            <h3>Privacy Policy</h3>
-            <p><strong>Last Updated: July 15, 2026</strong></p>
-            <p>At Nexus PDF, we take privacy seriously. Because our program architecture uses specialized WebGL canvas modules and client-side scripts, your images are never sent over the Internet to external tracking centers.</p>
-            <p><strong>Data We Do Not Collect:</strong></p>
-            <ul>
-                <li>We do not record, store, log, or view any uploaded data files or document images.</li>
-                <li>No metadata extraction pipelines are run on your processing histories.</li>
-            </ul>
-            <p><strong>Google AdSense Cookie Policies:</strong></p>
-            <p>This site displays third-party contextual advertisements provided by Google AdSense. Google uses specific cookie strings (such as the DART cookie tracking file) to serve relevant promotions matching your generalized navigation journeys around internet properties. You may choose to opt-out of personalized tracking cookies by visiting the official Google Ads Settings network directory pages.</p>
+<!-- extra content below fold (for SEO & AdSense value) -->
+<div id="learn-more" style="max-width: 1100px; margin: 0 auto; padding: 60px 30px; position: relative; z-index: 5;">
+    <h2 style="font-size: 28px; font-weight: 800; background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px;">
+        Professional‑grade image compilation
+    </h2>
+    <p style="color: #94a3b8; font-size: 16px; line-height: 1.7; max-width: 800px;">
+        Nexus PDF answers the modern web need for private, instant format conversion. By moving calculation 
+        workloads away from server farms and handling raw pixel streams inside your secure client environment, 
+        we protect data integrity while maximising workflow speed.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 24px; margin-top: 30px;">
+        <div style="background: #0f111a; border:1px solid #1e293b; border-radius:20px; padding:24px;">
+            <h4 style="color:#f8fafc; font-weight:700;">🔐 Zero upload</h4>
+            <p style="color:#94a3b8; font-size:14px; line-height:1.5;">Files are processed entirely in your browser memory – never transmitted.</p>
+        </div>
+        <div style="background: #0f111a; border:1px solid #1e293b; border-radius:20px; padding:24px;">
+            <h4 style="color:#f8fafc; font-weight:700;">📄 Multi‑page PDF</h4>
+            <p style="color:#94a3b8; font-size:14px; line-height:1.5;">Combine dozens of JPGs into a single, perfectly formatted PDF document.</p>
+        </div>
+        <div style="background: #0f111a; border:1px solid #1e293b; border-radius:20px; padding:24px;">
+            <h4 style="color:#f8fafc; font-weight:700;">⚡ Instant download</h4>
+            <p style="color:#94a3b8; font-size:14px; line-height:1.5;">No queue, no waiting. Your PDF is generated and downloaded in milliseconds.</p>
         </div>
     </div>
+</div>
 
-    <!-- Terms of Service Compliance Document Modal Wrap -->
-    <div class="modal" id="terms-modal">
-        <div class="modal-wrapper">
-            <span class="modal-close" onclick="toggleModal('terms-modal')">✕</span>
-            <h3>Terms of Service</h3>
-            <p><strong>Effective Date: July 15, 2026</strong></p>
-            <p>Welcome to Nexus PDF. By using our interface systems, you agree to comply with and be bound by the following conditions of use.</p>
-            <p><strong>Acceptable Usage Parameters:</strong></p>
-            <ul>
-                <li>The interface is provided completely free of charge for individual personal use or commercial processing streams.</li>
-                <li>You maintain full legal ownership, copyright records, and total liability for any material files placed into our canvas staging sandboxes.</li>
-            </ul>
-            <p><strong>Disclaimer of Warranties:</strong></p>
-            <p>Nexus PDF provides all script modules on an "As-Is" and "As-Available" development metric. We provide no operational guarantees that system conversions will complete flawlessly across legacy mobile operating system systems or edge case image configurations.</p>
-        </div>
+<!-- Footer -->
+<footer>
+    <div class="footer-links">
+        <a onclick="toggleModal('privacy-modal')">Privacy Policy</a>
+        <a onclick="toggleModal('terms-modal')">Terms of Service</a>
+        <a href="mailto:support@yourdomain.com">Contact Support</a>
     </div>
+    <p class="copyright">&copy; 2026 Nexus PDF Asset Laboratories. All rights reserved. Processing runs completely local.</p>
+</footer>
 
-    <script>
-        // ==========================================
-        // UI COMPLIANCE INTERACTION CODES
-        // ==========================================
-        function toggleModal(id) {
-            document.getElementById(id).classList.toggle('active');
+<!-- Privacy Modal -->
+<div class="modal" id="privacy-modal">
+    <div class="modal-wrapper">
+        <span class="modal-close" onclick="toggleModal('privacy-modal')">✕</span>
+        <h3>Privacy Policy</h3>
+        <p><strong>Last Updated: July 15, 2026</strong></p>
+        <p>At Nexus PDF, we take privacy seriously. Because our program architecture uses specialised WebGL canvas modules and client-side scripts, your images are never sent over the Internet to external tracking centres.</p>
+        <p><strong>Data We Do Not Collect:</strong></p>
+        <ul>
+            <li>We do not record, store, log, or view any uploaded data files or document images.</li>
+            <li>No metadata extraction pipelines are run on your processing histories.</li>
+        </ul>
+        <p><strong>Google AdSense Cookie Policies:</strong></p>
+        <p>This site displays third-party contextual advertisements provided by Google AdSense. Google uses specific cookie strings (such as the DART cookie tracking file) to serve relevant promotions matching your general navigation journeys around internet properties. You may choose to opt-out of personalised tracking cookies by visiting the official Google Ads Settings network directory pages.</p>
+    </div>
+</div>
+
+<!-- Terms Modal -->
+<div class="modal" id="terms-modal">
+    <div class="modal-wrapper">
+        <span class="modal-close" onclick="toggleModal('terms-modal')">✕</span>
+        <h3>Terms of Service</h3>
+        <p><strong>Effective Date: July 15, 2026</strong></p>
+        <p>Welcome to Nexus PDF. By using our interface systems, you agree to comply with and be bound by the following conditions of use.</p>
+        <p><strong>Acceptable Usage Parameters:</strong></p>
+        <ul>
+            <li>The interface is provided completely free of charge for individual personal use or commercial processing streams.</li>
+            <li>You maintain full legal ownership, copyright records, and total liability for any material files placed into our canvas staging sandboxes.</li>
+        </ul>
+        <p><strong>Disclaimer of Warranties:</strong></p>
+        <p>Nexus PDF provides all script modules on an "As-Is" and "As-Available" development metric. We provide no operational guarantees that system conversions will complete flawlessly across legacy mobile operating system systems or edge case image configurations.</p>
+    </div>
+</div>
+
+<script>
+    // ==========================================
+    // MODAL TOGGLE
+    // ==========================================
+    function toggleModal(id) {
+        document.getElementById(id).classList.toggle('active');
+    }
+
+    // ==========================================
+    // CORE APP LOGIC
+    // ==========================================
+    const state = { files: [], meshMap: new Map() };
+
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const fileList = document.getElementById('file-list');
+    const fileCountText = document.getElementById('file-count');
+    const compileBtn = document.getElementById('compile-btn');
+    const container = document.getElementById('canvas-container');
+
+    // ==========================================
+    // THREE.JS 3D
+    // ==========================================
+    let scene, camera, renderer, objects = [];
+
+    function init3D() {
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x06060a);
+        scene.fog = new THREE.FogExp2(0x06060a, 0.015);
+
+        camera = new THREE.PerspectiveCamera(50, (window.innerWidth) / window.innerHeight, 0.1, 1000);
+        camera.position.set(2, 4, 8);
+        camera.lookAt(2, 0, 0);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+        const dir1 = new THREE.DirectionalLight(0x00f2fe, 1.0);
+        dir1.position.set(5, 10, 5);
+        scene.add(dir1);
+
+        const gridHelper = new THREE.GridHelper(40, 40, 0x1e293b, 0x0f172a);
+        gridHelper.position.y = -2.5;
+        scene.add(gridHelper);
+
+        animate();
+    }
+
+    function add3DCard(fileId) {
+        const geometry = new THREE.BoxGeometry(2.2, 3.0, 0.08);
+        const materials = [
+            new THREE.MeshStandardMaterial({ color: 0x1e293b }),
+            new THREE.MeshStandardMaterial({ color: 0x1e293b }),
+            new THREE.MeshStandardMaterial({ color: 0x1e293b }),
+            new THREE.MeshStandardMaterial({ color: 0x1e293b }),
+            new THREE.MeshStandardMaterial({ color: 0x00f2fe, roughness: 0.2, metalness: 0.5 }),
+            new THREE.MeshStandardMaterial({ color: 0x0f172a })
+        ];
+        const mesh = new THREE.Mesh(geometry, materials);
+        mesh.position.set(1.5 + (Math.random() * 3), 6 + (Math.random() * 2), (Math.random() * 2) - 1);
+        mesh.userData = {
+            velocity: new THREE.Vector3(0, -0.05, 0),
+            gravity: -0.006,
+            bounceDecay: 0.45,
+            rotSpeed: (Math.random() * 0.02) - 0.01,
+            targetY: -2.4,
+            isResting: false
+        };
+        scene.add(mesh);
+        objects.push(mesh);
+        state.meshMap.set(fileId, mesh);
+    }
+
+    function remove3DCard(fileId) {
+        const mesh = state.meshMap.get(fileId);
+        if (mesh) {
+            scene.remove(mesh);
+            objects = objects.filter(obj => obj !== mesh);
+            state.meshMap.delete(fileId);
         }
+    }
 
-        // ==========================================
-        // CORE APPLICATION LOGIC STORE
-        // ==========================================
-        const state = { files: [], meshMap: new Map() };
-
-        const dropZone = document.getElementById('drop-zone');
-        const fileInput = document.getElementById('file-input');
-        const fileList = document.getElementById('file-list');
-        const fileCountText = document.getElementById('file-count');
-        const compileBtn = document.getElementById('compile-btn');
-        const container = document.getElementById('canvas-container');
-
-        // ==========================================
-        // THREE.JS SPATIAL RENDERING SUBSYSTEM
-        // ==========================================
-        let scene, camera, renderer, objects = [];
-        
-        function init3D() {
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x06060a);
-            scene.fog = new THREE.FogExp2(0x06060a, 0.015);
-
-            camera = new THREE.PerspectiveCamera(50, (window.innerWidth) / window.innerHeight, 0.1, 1000);
-            camera.position.set(2, 4, 8);
-            camera.lookAt(2, 0, 0);
-
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            container.appendChild(renderer.domElement);
-
-            scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-            
-            const dir1 = new THREE.DirectionalLight(0x00f2fe, 1.0);
-            dir1.position.set(5, 10, 5);
-            scene.add(dir1);
-
-            const gridHelper = new THREE.GridHelper(40, 40, 0x1e293b, 0x0f172a);
-            gridHelper.position.y = -2.5;
-            scene.add(gridHelper);
-
-            animate();
-        }
-
-        function add3DCard(fileId) {
-            const geometry = new THREE.BoxGeometry(2.2, 3.0, 0.08);
-            const materials = [
-                new THREE.MeshStandardMaterial({ color: 0x1e293b }), new THREE.MeshStandardMaterial({ color: 0x1e293b }),
-                new THREE.MeshStandardMaterial({ color: 0x1e293b }), new THREE.MeshStandardMaterial({ color: 0x1e293b }),
-                new THREE.MeshStandardMaterial({ color: 0x00f2fe, roughness: 0.2, metalness: 0.5 }),
-                new THREE.MeshStandardMaterial({ color: 0x0f172a })
-            ];
-
-            const mesh = new THREE.Mesh(geometry, materials);
-            mesh.position.set(1.5 + (Math.random() * 3), 6 + (Math.random() * 2), (Math.random() * 2) - 1);
-            
-            mesh.userData = {
-                velocity: new THREE.Vector3(0, -0.05, 0), gravity: -0.006, bounceDecay: 0.45,
-                rotSpeed: (Math.random() * 0.02) - 0.01, targetY: -2.4, isResting: false
-            };
-
-            scene.add(mesh);
-            objects.push(mesh);
-            state.meshMap.set(fileId, mesh);
-        }
-
-        function remove3DCard(fileId) {
-            const mesh = state.meshMap.get(fileId);
-            if (mesh) {
-                scene.remove(mesh);
-                objects = objects.filter(obj => obj !== mesh);
-                state.meshMap.delete(fileId);
-            }
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            objects.forEach(obj => {
-                let phys = obj.userData;
-                if (!phys.isResting) {
-                    phys.velocity.y += phys.gravity;
-                    obj.position.add(phys.velocity);
-                    obj.rotation.x += phys.rotSpeed;
-                    obj.rotation.y += phys.rotSpeed * 0.5;
-
-                    if (obj.position.y <= phys.targetY) {
-                        obj.position.y = phys.targetY;
-                        if (Math.abs(phys.velocity.y) > 0.03) {
-                            phys.velocity.y = -phys.velocity.y * phys.bounceDecay;
-                            phys.rotSpeed *= 0.6;
-                        } else {
-                            phys.isResting = true;
-                            phys.velocity.set(0,0,0);
-                            obj.rotation.set(Math.PI / 2, 0, Math.random() * 0.2);
-                        }
+    function animate() {
+        requestAnimationFrame(animate);
+        objects.forEach(obj => {
+            const phys = obj.userData;
+            if (!phys.isResting) {
+                phys.velocity.y += phys.gravity;
+                obj.position.add(phys.velocity);
+                obj.rotation.x += phys.rotSpeed;
+                obj.rotation.y += phys.rotSpeed * 0.5;
+                if (obj.position.y <= phys.targetY) {
+                    obj.position.y = phys.targetY;
+                    if (Math.abs(phys.velocity.y) > 0.03) {
+                        phys.velocity.y = -phys.velocity.y * phys.bounceDecay;
+                        phys.rotSpeed *= 0.6;
+                    } else {
+                        phys.isResting = true;
+                        phys.velocity.set(0, 0, 0);
+                        obj.rotation.set(Math.PI / 2, 0, Math.random() * 0.2);
                     }
                 }
-            });
-            renderer.render(scene, camera);
-        }
-
-        // ==========================================
-        // PIPELINE EVENT SYSTEM ATTACHMENTS
-        // ==========================================
-        dropZone.addEventListener('click', () => fileInput.click());
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-        ['dragleave', 'drop'].forEach(v => dropZone.addEventListener(v, () => dropZone.classList.remove('dragover')));
-        
-        dropZone.addEventListener('drop', (e) => { e.preventDefault(); handleUploadedFiles(e.dataTransfer.files); });
-        fileInput.addEventListener('change', (e) => handleUploadedFiles(e.target.files));
-
-        function handleUploadedFiles(uploadedList) {
-            const valid = ['image/jpeg', 'image/jpg'];
-            Array.from(uploadedList).forEach(file => {
-                if (!valid.includes(file.type)) return;
-                const fileId = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-                state.files.push({ id: fileId, nativeData: file });
-                renderStagingDOM();
-                add3DCard(fileId);
-            });
-        }
-
-        function removeFile(fileId) {
-            state.files = state.files.filter(f => f.id !== fileId);
-            renderStagingDOM();
-            remove3DCard(fileId);
-        }
-
-        function renderStagingDOM() {
-            fileList.innerHTML = '';
-            fileCountText.innerText = `${state.files.length} Files`;
-            compileBtn.disabled = state.files.length === 0;
-
-            state.files.forEach(f => {
-                const item = document.createElement('div');
-                item.className = 'file-item';
-                item.innerHTML = `
-                    <div class="file-info"><span class="file-name">${f.nativeData.name}</span></div>
-                    <button class="remove-btn" onclick="removeFile('${f.id}')">✕</button>
-                `;
-                fileList.appendChild(item);
-            });
-        }
-
-        // ==========================================
-        // CLIENT-SIDE ENGINE COMPILER DRIVER
-        // ==========================================
-        compileBtn.addEventListener('click', async () => {
-            if (state.files.length === 0) return;
-            compileBtn.disabled = true;
-            compileBtn.innerText = "Encoding Asset Clusters...";
-
-            const { jsPDF } = window.jspdf;
-            let pdfInstance = null;
-
-            for (let i = 0; i < state.files.length; i++) {
-                const file = state.files[i].nativeData;
-                try {
-                    const base64 = await readAsBase64(file);
-                    const dims = await getImageDimensions(base64);
-                    const orient = dims.width > dims.height ? 'l' : 'p';
-                    
-                    if (i === 0) {
-                        pdfInstance = new jsPDF({ orientation: orient, unit: 'px', format: [dims.width, dims.height] });
-                    } else {
-                        pdfInstance.addPage([dims.width, dims.height], orient);
-                    }
-                    pdfInstance.addImage(base64, 'JPEG', 0, 0, dims.width, dims.height);
-                } catch (e) { console.error(e); }
             }
-
-            if (pdfInstance) pdfInstance.save(`nexus_compiled_${Date.now()}.pdf`);
-            compileBtn.disabled = false;
-            compileBtn.innerHTML = `<span>Compile PDF Document</span> ✨`;
         });
+        renderer.render(scene, camera);
+    }
 
-        function readAsBase64(f) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = e => rej(e); r.readAsDataURL(f); }); }
-        function getImageDimensions(b) { return new Promise((res) => { const i = new Image(); i.onload = () => res({ width: i.naturalWidth, height: i.naturalHeight }); i.src = b; }); }
+    // ==========================================
+    // FILE HANDLING
+    // ==========================================
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    ['dragleave', 'drop'].forEach(ev => dropZone.addEventListener(ev, () => dropZone.classList.remove('dragover')));
+    dropZone.addEventListener('drop', (e) => { e.preventDefault(); handleUploadedFiles(e.dataTransfer.files); });
+    fileInput.addEventListener('change', (e) => handleUploadedFiles(e.target.files));
 
-        window.addEventListener('resize', () => {
-            if (!camera || !renderer) return;
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+    function handleUploadedFiles(uploadedList) {
+        const valid = ['image/jpeg', 'image/jpg'];
+        Array.from(uploadedList).forEach(file => {
+            if (!valid.includes(file.type)) return;
+            const fileId = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            state.files.push({ id: fileId, nativeData: file });
+            renderStagingDOM();
+            add3DCard(fileId);
         });
+    }
 
-        window.onload = init3D;
-    </script>
+    function removeFile(fileId) {
+        state.files = state.files.filter(f => f.id !== fileId);
+        renderStagingDOM();
+        remove3DCard(fileId);
+    }
+
+    function renderStagingDOM() {
+        fileList.innerHTML = '';
+        fileCountText.innerText = `${state.files.length} Files`;
+        compileBtn.disabled = state.files.length === 0;
+        state.files.forEach(f => {
+            const item = document.createElement('div');
+            item.className = 'file-item';
+            item.innerHTML = `
+                <div class="file-info"><span class="file-name">${f.nativeData.name}</span></div>
+                <button class="remove-btn" onclick="removeFile('${f.id}')">✕</button>
+            `;
+            fileList.appendChild(item);
+        });
+    }
+
+    // ==========================================
+    // COMPILE PDF
+    // ==========================================
+    compileBtn.addEventListener('click', async () => {
+        if (state.files.length === 0) return;
+        compileBtn.disabled = true;
+        compileBtn.innerText = "Encoding...";
+
+        const { jsPDF } = window.jspdf;
+        let pdfInstance = null;
+
+        for (let i = 0; i < state.files.length; i++) {
+            const file = state.files[i].nativeData;
+            try {
+                const base64 = await readAsBase64(file);
+                const dims = await getImageDimensions(base64);
+                const orient = dims.width > dims.height ? 'l' : 'p';
+                if (i === 0) {
+                    pdfInstance = new jsPDF({ orientation: orient, unit: 'px', format: [dims.width, dims.height] });
+                } else {
+                    pdfInstance.addPage([dims.width, dims.height], orient);
+                }
+                pdfInstance.addImage(base64, 'JPEG', 0, 0, dims.width, dims.height);
+            } catch (e) { console.error(e); }
+        }
+
+        if (pdfInstance) pdfInstance.save(`nexus_compiled_${Date.now()}.pdf`);
+        compileBtn.disabled = false;
+        compileBtn.innerHTML = `<span>Compile PDF</span> ✨`;
+    });
+
+    function readAsBase64(f) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = e => rej(e); r.readAsDataURL(f); }); }
+    function getImageDimensions(b) { return new Promise((res) => { const i = new Image(); i.onload = () => res({ width: i.naturalWidth, height: i.naturalHeight }); i.src = b; }); }
+
+    window.addEventListener('resize', () => {
+        if (!camera || !renderer) return;
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    window.onload = init3D;
+</script>
+
 </body>
 </html>
